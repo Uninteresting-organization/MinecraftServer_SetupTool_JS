@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minecraft Server Setup</title>
+  <style>
+    body {
+      background-color: #1e1e1e;
+      color: #fff;
+      font-family: 'Microsoft JhengHei', sans-serif;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+    }
+    select, input[type="text"], button, input[type="range"] {
+      width: 400px;
+      padding: 10px;
+      margin-top: 5px;
+      background: #333;
+      border: none;
+      color: white;
+      font-size: 14px;
+    }
+    progress {
+      width: 400px;
+      margin-top: 10px;
+    }
+    .checkbox {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Minecraft Server 安裝工具</h1>
+
+  <label>選擇伺服器版本</label>
+  <select id="versionSelect"></select>
+
+  <label>安裝路徑</label>
+  <input type="text" id="installPath" readonly />
+  <button id="choosePathBtn">選擇路徑</button>
+
+  <div class="checkbox">
+    <label><input type="checkbox" id="eulaCheckbox" /> 我同意 EULA 條款</label>
+    <label><input type="checkbox" id="onlineModeCheckbox" checked /> 啟用 Online Mode</label>
+  </div>
+
+  <label>記憶體分配（MB）</label>
+  <input type="range" min="2048" max="8192" step="512" id="memorySlider" />
+  <span id="memoryValue">2048</span> MB
+
+  <label id="stateText">請稍後...</label>
+  <progress id="progressBar" value="0" max="100"></progress>
+
+  <button id="createServerBtn">建立伺服器</button>
+  <p style="margin-top: 40px; font-size: 12px;">Evan小饅頭製作 2025 版權所有 ©</p>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
