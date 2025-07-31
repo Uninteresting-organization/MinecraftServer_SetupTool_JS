@@ -1,4 +1,3 @@
-````markdown
 # MinecraftServer_SetupTool_JS
 
 這是一個由國小生使用 JavaScript 製作的 Minecraft Server 安裝工具，致敬並仿作自 Evan0503 的 [MinecraftServer_SetupTool](https://github.com/evan0513/MinecraftServer_SetupTool) 專案。
