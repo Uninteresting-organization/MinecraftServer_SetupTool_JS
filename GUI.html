@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Minecraft Server Setup</title>
   <style>
-    body {
+    body { 
       background-color: #1e1e1e;
       color: #fff;
       font-family: 'Microsoft JhengHei', sans-serif;
@@ -43,12 +43,23 @@
   <label>選擇伺服器版本</label>
   <select id="versionSelect"></select>
 
+  <label>選擇伺服器核心</label>
+  <select id="coreSelect">
+    <option value="paper" selected>Paper（性能更好）</option>
+    <option value="vanilla">原版（性能稍落）</option>
+  </select>
+
   <label>安裝路徑</label>
   <input type="text" id="installPath" readonly />
   <button id="choosePathBtn">選擇路徑</button>
 
+  <!-- 移除插件選擇相關區塊（showPluginsBtn、pluginSelect） -->
+
   <div class="checkbox">
-    <label><input type="checkbox" id="eulaCheckbox" /> 我同意 EULA 條款</label>
+    <label class="checkbox">
+      <input type="checkbox" id="eulaCheckbox" checked disabled />
+      我同意 <a href="https://account.mojang.com/documents/minecraft_eula" target="_blank" style="color:#4faaff;">Mojang EULA 條款</a>
+    </label>
     <label><input type="checkbox" id="onlineModeCheckbox" checked /> 啟用 Online Mode</label>
   </div>
 
@@ -60,6 +71,7 @@
   <progress id="progressBar" value="0" max="100"></progress>
 
   <button id="createServerBtn">建立伺服器</button>
+  <p id="toolVersion" style="margin-top: 20px; font-size: 12px;">版本：v1.0.0</p>
   <p style="margin-top: 40px; font-size: 12px;">Evan小饅頭製作 2025 版權所有 ©</p>
 
   <script src="renderer.js"></script>

@@ -27,20 +27,61 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('create-server', async (event, data) => {
-    const { version, path: installPath } = data;
+    const { version, path: installPath, core, memory, debug } = data;
+
+    // log.txt 寫入工具
+    const logPath = path.join(installPath, 'log.txt');
+    function log(msg) {
+      fs.appendFileSync(logPath, `[${new Date().toISOString()}] ${msg}\n`);
+    }
+    log(`開始建立伺服器，版本: ${version}，核心: ${core}，插件: ${(data.plugins||[]).join(',')}`);
 
     try {
-      const jarUrl = await fetchServerJarUrl(version);
+      let jarUrl;
+      if (core === 'paper') {
+        jarUrl = await fetchPaperJarUrl(version);
+      } else {
+        jarUrl = await fetchServerJarUrl(version);
+      }
       const jarPath = path.join(installPath, 'server.jar');
 
+      // 若 server.jar 已存在，先刪除再下載
+      if (fs.existsSync(jarPath)) {
+        fs.unlinkSync(jarPath);
+        log('刪除舊的 server.jar');
+      }
+
+      log(`下載伺服器核心: ${jarUrl}`);
       await downloadFile(jarUrl, jarPath, (progress) => {
         event.sender.send('download-progress', progress);
       });
+      log('伺服器核心下載完成');
+
+      // Debug 模式：印出 jar 資訊
+      if (debug) {
+        const stat = fs.statSync(jarPath);
+        const buf = fs.readFileSync(jarPath);
+        log(`DEBUG: server.jar 檔案大小: ${stat.size} bytes`);
+        log(`DEBUG: server.jar 前 100 bytes: ${buf.slice(0, 100).toString()}`);
+      }
+
+      // 自動產生 start.bat
+      const batContent = `@echo off\njava -Xmx${memory}M -jar server.jar --nogui\npause\n`;
+      const batPath = path.join(installPath, 'start.bat');
+      fs.writeFileSync(batPath, batContent, 'utf8');
+      log('產生 start.bat');
+
+      // 自動產生 eula.txt
+      const eulaPath = path.join(installPath, 'eula.txt');
+      fs.writeFileSync(eulaPath, 'eula=true\n', 'utf8');
+      log('產生 eula.txt');
 
       event.sender.send('state-update', '下載完成 ✅');
+      log('全部完成');
     } catch (err) {
       console.error('下載失敗：', err);
       event.sender.send('state-update', '下載失敗 ❌');
+      log(`錯誤: ${err}`);
     }
   });
 });
@@ -78,6 +119,28 @@ async function fetchServerJarUrl(version) {
   const serverUrl = versionDetail.downloads.server.url;
 
   return serverUrl;
+}
+
+async function fetchPaperJarUrl(version) {
+  // 取得 Paper 支援的所有 Minecraft 版本
+  const projectUrl = 'https://api.papermc.io/v2/projects/paper';
+  const projectData = await fetchJson(projectUrl);
+  if (!projectData.versions.includes(version)) {
+    throw new Error('Paper 不支援此 Minecraft 版本');
+  }
+  // 取得該版本所有 build
+  const buildsUrl = `https://api.papermc.io/v2/projects/paper/versions/${version}/builds`;
+  const buildsData = await fetchJson(buildsUrl);
+  // buildsData.builds 是一個 build 物件陣列或 build number 陣列
+  let buildNumber;
+  if (Array.isArray(buildsData.builds)) {
+    const last = buildsData.builds[buildsData.builds.length - 1];
+    buildNumber = typeof last === 'object' ? last.build : last;
+  } else {
+    throw new Error('無法取得 Paper build 資訊');
+  }
+  const jarName = `paper-${version}-${buildNumber}.jar`;
+  return `https://api.papermc.io/v2/projects/paper/versions/${version}/builds/${buildNumber}/downloads/${jarName}`;
 }
 
 function fetchJson(url) {

@@ -11,6 +11,7 @@ const memoryValue = document.getElementById('memoryValue');
 const progressBar = document.getElementById('progressBar');
 const stateText = document.getElementById('stateText');
 const createServerBtn = document.getElementById('createServerBtn');
+const coreSelect = document.getElementById('coreSelect');
 
 
 choosePathBtn.addEventListener('click', async () => {
@@ -24,16 +25,32 @@ memorySlider.addEventListener('input', () => {
   memoryValue.textContent = memorySlider.value;
 });
 
+// 在 createServerBtn 上方加 debug 勾選框
+const debugCheckbox = document.createElement('input');
+debugCheckbox.type = 'checkbox';
+debugCheckbox.id = 'debugCheckbox';
+const debugLabel = document.createElement('label');
+debugLabel.appendChild(debugCheckbox);
+debugLabel.appendChild(document.createTextNode(' 啟用 Debug 模式（下載資訊將顯示於終端機）'));
+createServerBtn.parentNode.insertBefore(debugLabel, createServerBtn);
+
 createServerBtn.addEventListener('click', () => {
+  if (!installPath.value) {
+    alert('請先選擇安裝路徑！');
+    return;
+  }
   const data = {
     version: versionSelect.value,
     path: installPath.value,
     eula: eulaCheckbox.checked,
     onlineMode: onlineModeCheckbox.checked,
-    memory: memorySlider.value
+    memory: memorySlider.value,
+    core: coreSelect.value,
+    debug: debugCheckbox.checked
+    // plugins 移除
   };
 
-  ipc.invoke('create-server', data); // 修改這裡
+  ipc.invoke('create-server', data);
   stateText.textContent = '下載中...';
 });
 
@@ -44,6 +61,7 @@ ipc.on('download-progress', (event, percent) => { // 修改這裡
 ipc.on('state-update', (event, msg) => { // 修改這裡
   stateText.textContent = msg;
 });
+
 async function loadMinecraftVersions() {
     try {
         const versions = await ipc.fetchMinecraftVersions(); // 調用主進程的函數
