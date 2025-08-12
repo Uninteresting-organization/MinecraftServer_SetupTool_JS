@@ -54,3 +54,6 @@ package.json	專案設定與依賴管理
 
 🧠 Credits
 感謝 Evan0513 的原始專案。 這個版本是基於他的架構進行魔改與重構。
+
+![爆炸等級](https://img.shields.io/badge/%F0%9F%92%A5-Beta-red)
+![Goblin Certified](https://img.shields.io/badge/Goblin-Approved-green)
