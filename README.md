@@ -1,40 +1,56 @@
-# MinecraftServer_SetupTool_JS
+# 🧰 MinecraftServer_SetupTool_JS
+一個由 Goblin 工程師手搓的 Minecraft Server 建置工具。 靈感來自 Evan0513，~~但這版比較會爆炸~~。
 
-這是一個由國小生使用 JavaScript 製作的 Minecraft Server 安裝工具，致敬並仿作自 Evan0503 的 [MinecraftServer_SetupTool](https://github.com/evan0513/MinecraftServer_SetupTool) 專案。
+---
 
-本工具使用 Electron 打造，支援跨平台使用，讓你更簡單地建立並下載官方伺服器 JAR 檔。
+🧙‍♂️ 這是什麼？
+這是一個用JavaScript（沒錯，就是 JS）打造的 Minecraft Server 建置工具。 原本是國小生的練習作品，現在被 Goblin 工程師魔改成一個能跑、能炸、能笑的工具。
 
-📦 使用前請先安裝：
-Node.js（建議使用 LTS 版本）
+你可以用它：
 
-▶️ 使用方法
-將此專案下載或 clone 到本地資料夾
+快速建立 Minecraft Server（理論上）
 
-開啟終端機（Terminal）並切換到專案根目錄
+用 GUI 操作，不用手動敲指令（但你還是會想打開終端機）
 
-執行以下指令安裝必要模組並啟動應用程式：
+體驗 Electron + HTML + JS 的混合魔法
+
+🛠️ 如何使用？
+安裝 Node.js
+
+克隆這個儲存庫：
+
+```bash 
+git clone https://github.com/Uninteresting-organization/MinecraftServer_SetupTool_JS.git
+cd MinecraftServer_SetupTool_JS
+```
+安裝依賴：
 
 ```bash
 npm install
+```
+啟動工具：
+
+```bash
 npm start
-````
+```
+📦 檔案結構
+檔案	          功能說明
+main.js	      Electron 主進程，負責開啟窗口與處理邏輯
+preload.js	  預載腳本，讓前端能安全地呼叫 Node API
+renderer.js	  前端邏輯處理，連接 GUI 與功能
+GUI.html	    使用者介面，簡單但有效
+package.json	專案設定與依賴管理
 
-✅ 功能介紹
-自動下載 Minecraft 伺服器官方 server.jar
-支援選擇版本（例：1.20.1、1.19.4 等）
-EULA 條款同意選項
-記憶體分配設定
-Online Mode 開關
-顯示下載進度與除錯資訊
-（未來支援）模組 / 插件來源自動整合（CurseForge、Modrinth 等）
+---
 
-## 安裝與使用
+⚠️ 注意事項
+這個工具還在 Beta 階段，可能會炸。Goblin 工程師不保證穩定，但保證有趣。
 
-1. 請先安裝 [Node.js](https://nodejs.org/zh-tw/)（建議 LTS 版）。
-2. 下載本專案並解壓縮。
-3. 在專案根目錄打開終端機，依序輸入：
-4. 跟著圖形介面操作，選擇伺服器版本、核心、安裝路徑，點擊「建立伺服器」即可！
+如果你遇到 bug，請先笑一笑，再來信或開 issue。
 
-> 由 SalmonSkate、LogoMonkey 改寫、優化，讓更多小朋友能輕鬆架設 Minecraft 伺服器！
+有任何建議、吐槽、或 meme，歡迎聯繫我：salmonskate2256.yt@gmail.com
 
+---
 
+🧠 Credits
+感謝 Evan0513 的原始專案。 這個版本是基於他的架構進行魔改與重構。
