@@ -34,12 +34,12 @@ npm install
 npm start
 ```
 📦 檔案結構
-檔案	          功能說明
-main.js	      Electron 主進程，負責開啟窗口與處理邏輯
-preload.js	  預載腳本，讓前端能安全地呼叫 Node API
-renderer.js	  前端邏輯處理，連接 GUI 與功能
-GUI.html	    使用者介面，簡單但有效
-package.json	專案設定與依賴管理
+檔案	|功能說明
+main.js|Electron 主進程，負責開啟窗口與處理邏輯
+preload.js|預載腳本，讓前端能安全地呼叫 Node API
+renderer.js|前端邏輯處理，連接 GUI 與功能
+GUI.html|使用者介面，簡單但有效
+package.json|專案設定與依賴管理
 
 ---
 
